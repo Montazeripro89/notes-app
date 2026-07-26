@@ -35,7 +35,14 @@ export default function SortSelect({
 
   return (
 
-    <FormControl sx={{width: '30vw'}}>
+    <FormControl 
+      sx={{
+        width: '30vw',
+        "& .MuiOutlinedInput-root": {
+          borderRadius: 0,
+        },
+      }}
+    >
 
       <Select
 

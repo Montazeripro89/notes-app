@@ -27,6 +27,22 @@ export default function SearchBar({
 
       sx={{
         width: '70vw',
+        "& .MuiOutlinedInput-root": {
+          borderRadius: 0,
+        },
+        "& .MuiOutlinedInput-notchedOutline": {
+          borderColor: "#cccccc77",
+        },
+
+        "&:hover .MuiOutlinedInput-notchedOutline": {
+          borderColor: "#cccccc77",
+        },
+
+        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+          borderColor: "#cccccc77",
+          borderWidth: "1px",
+        },
+
       }}
 
       value={value}
