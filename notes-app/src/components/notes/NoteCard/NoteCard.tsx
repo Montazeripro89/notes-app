@@ -45,7 +45,6 @@ export default function NoteCard({
       sx={{
         borderBottom: '1px solid #a1a1a18e', 
         borderTop: '1px solid #a1a1a18e',
-        WebkitBoxShadow: '0px 0px 10px 7px #0000002f'
         }}
     >
 

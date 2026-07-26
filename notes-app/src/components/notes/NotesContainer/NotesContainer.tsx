@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 import {
   Box,
-  Button,
+  Fab,
 } from "@mui/material";
 
 
@@ -289,17 +289,14 @@ export default function NotesContainer() {
 
     <>
 
-      <Button
+      <Fab
 
-        variant="contained"
+        color="primary"
 
         sx={{
           position: 'absolute',
           right: '30px',
           bottom: '30px',
-          width: '50px',
-          height: '60px',
-          borderRadius : '100px'
         }}
 
         onClick={
@@ -310,7 +307,7 @@ export default function NotesContainer() {
 
         <AddIcon/>
 
-      </Button>
+      </Fab>
 
 
 
