@@ -1,0 +1,12 @@
+npm run dev -- --host 127.0.0.1 --port 3000
+
+npm install @capacitor/android @capacitor/core @capacitor/cli
+npm install -D @capacitor/assets
+npm run build
+npx cap init
+npx cap add android
+npx capacitor-assets generate
+npx cap sync android
+cccc
+
+tree /f /at
