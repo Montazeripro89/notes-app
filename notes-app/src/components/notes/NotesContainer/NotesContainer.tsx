@@ -294,9 +294,9 @@ export default function NotesContainer() {
         color="primary"
 
         sx={{
-          position: 'absolute',
-          right: '30px',
-          bottom: '30px',
+          position: 'fixed',
+          right: 24,
+          bottom: 24,
         }}
 
         onClick={

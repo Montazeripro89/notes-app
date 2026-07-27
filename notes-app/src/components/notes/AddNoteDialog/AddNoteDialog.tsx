@@ -7,6 +7,9 @@ import {
   TextField,
 } from "@mui/material";
 
+import Snackbar from '@mui/material/Snackbar';
+import type { SnackbarCloseReason } from "@mui/material/Snackbar";
+
 import {
   useState,
 } from "react";
@@ -65,15 +68,28 @@ export default function AddNoteDialog({
     setContent,
   ] = useState("");
 
+  const [openBar, setOpenBar] = useState(false);
 
+  const handleOpen = () => {
+    setOpenBar(true);
+  };
 
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
 
-
-
+    setOpenBar(false);
+  };
 
   const handleSubmit = () => {
 
-    const newNote: Note = {
+    if(title && content !== null) {
+
+      const newNote: Note = {
 
 
       id: uuid(),
@@ -91,21 +107,27 @@ export default function AddNoteDialog({
       updatedAt: Date.now(),
 
 
-    };
+      };
 
 
 
-    onSave(newNote);
+      onSave(newNote);
 
 
 
-    setTitle("");
+      setTitle("");
 
-    setContent("");
+      setContent("");
 
 
 
-    onClose();
+      onClose();
+
+    }else {
+      handleOpen()
+    }
+
+    
 
 
   };
@@ -186,10 +208,7 @@ export default function AddNoteDialog({
 
 
       </DialogContent>
-
-
-
-        
+      
 
 
       <DialogActions>
@@ -225,7 +244,12 @@ export default function AddNoteDialog({
 
       </DialogActions>
 
-
+      <Snackbar
+        open={openBar}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message="Enter the form values correctly"
+      />
 
     </Dialog>
 

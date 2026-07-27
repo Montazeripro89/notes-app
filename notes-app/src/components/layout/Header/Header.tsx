@@ -15,6 +15,9 @@ export default function Header() {
     <AppBar
 
       position="static"
+      sx={{
+        height: '75px'
+      }}
 
     >
 
@@ -26,9 +29,11 @@ export default function Header() {
           variant="h6"
 
           sx={{
-
+            position: 'absolute',
+            top : '64%',
+            left : '51%',
+            transform: 'translate(-51%, -51%)',
             flexGrow: 1,
-
           }}
 
         >
