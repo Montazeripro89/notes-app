@@ -124,7 +124,7 @@ export default function AddNoteDialog({
       onClose();
 
     }else {
-      handleOpen()
+      handleOpen();
     }
 
     
@@ -245,6 +245,12 @@ export default function AddNoteDialog({
       </DialogActions>
 
       <Snackbar
+        sx={{
+          "& .MuiSnackbarContent-message": {
+            width: "100%",
+            textAlign: "center",
+          },
+        }}  
         open={openBar}
         autoHideDuration={3000}
         onClose={handleClose}

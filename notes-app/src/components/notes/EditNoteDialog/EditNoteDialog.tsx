@@ -7,6 +7,8 @@ import {
   TextField,
 } from "@mui/material";
 
+import Snackbar from '@mui/material/Snackbar';
+import type { SnackbarCloseReason } from "@mui/material/Snackbar";
 
 import {
   useEffect,
@@ -69,43 +71,62 @@ export default function EditNoteDialog({
 
   }, [note]);
 
-
+  const [openBar, setOpenBar] = useState(false);
+  
+    const handleOpen = () => {
+      setOpenBar(true);
+    };
+  
+    const handleClose = (
+      event: React.SyntheticEvent | Event,
+      reason?: SnackbarCloseReason,
+    ) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpenBar(false);
+  };
 
 
 
   const handleSubmit = () => {
 
+    if(title && content !== null) {
 
-    if (!note) {
+      if (!note) {
 
-      return;
+        return;
 
+      }
+
+
+
+      onSave({
+
+        ...note,
+
+        title,
+
+        content,
+
+        updatedAt:
+          Date.now(),
+
+      });
+
+
+
+      onClose();
+
+    }else{
+      handleOpen();
     }
-
-
-
-    onSave({
-
-      ...note,
-
-      title,
-
-      content,
-
-      updatedAt:
-        Date.now(),
-
-    });
-
-
-
-    onClose();
+    
 
 
   };
-
-
-
+  
 
 
   return (
@@ -203,7 +224,18 @@ export default function EditNoteDialog({
 
       </DialogActions>
 
-
+      <Snackbar
+        sx={{
+          "& .MuiSnackbarContent-message": {
+            width: "100%",
+            textAlign: "center",
+          },
+        }}  
+        open={openBar}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message="Enter the form values correctly"
+      />
 
     </Dialog>
 
