@@ -1,30 +1,32 @@
 import {
+
   Fab,
+
 } from "@mui/material";
 
-
 import {
+
   LightMode,
+
   DarkMode,
+
 } from "@mui/icons-material";
 
-
 import {
+
   useThemeMode,
+
 } from "../../../context/ThemeContext";
-
-
-
-
 
 
 
 export default function ThemeToggle() {
 
 
+
   const {
 
-    mode,
+    effectiveMode,
 
     toggleTheme,
 
@@ -33,44 +35,31 @@ export default function ThemeToggle() {
 
 
 
-
-
-
   return (
-
 
     <Fab
 
-
       color="default"
-
 
       onClick={toggleTheme}
 
-
       sx={{
-
 
         position: "fixed",
 
-
-        left: 24,
-
+        right: 24,
 
         bottom: 24,
 
+        zIndex: 1000,
 
       }}
 
-
     >
-
 
       {
 
-
-        mode === "dark"
-
+        effectiveMode === "dark"
 
           ?
 
@@ -80,13 +69,9 @@ export default function ThemeToggle() {
 
           <DarkMode />
 
-
       }
 
-
-
     </Fab>
-
 
   );
 

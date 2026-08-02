@@ -6,10 +6,6 @@ import type {
 import Header from "../Header";
 
 
-import ThemeToggle from "../../common/ThemeToggle/ThemeToggle";
-
-
-
 type MainLayoutProps = {
 
   children: ReactNode;
@@ -34,16 +30,11 @@ export default function MainLayout({
       <Header />
 
 
-
       <main>
 
         {children}
 
       </main>
-
-
-
-      <ThemeToggle />
 
 
     </>

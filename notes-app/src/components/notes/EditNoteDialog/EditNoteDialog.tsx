@@ -142,7 +142,7 @@ export default function EditNoteDialog({
 
       <DialogTitle>
 
-        Edit Note
+        ویرایش نبشت
 
       </DialogTitle>
 
@@ -157,7 +157,7 @@ export default function EditNoteDialog({
 
           margin="normal"
 
-          label="Title"
+          label="عنوان"
 
           value={title}
 
@@ -179,7 +179,7 @@ export default function EditNoteDialog({
 
           margin="normal"
 
-          label="Content"
+          label="متن ارزشمندتون"
 
           value={content}
 
@@ -195,14 +195,19 @@ export default function EditNoteDialog({
 
 
 
-      <DialogActions>
+      <DialogActions
+         sx={{
+          justifyContent: "center",
+          gap: 2,
+        }}
+      >
 
 
         <Button
           onClick={onClose}
         >
 
-          Cancel
+          بی‌خیال
 
         </Button>
 
@@ -216,7 +221,7 @@ export default function EditNoteDialog({
 
         >
 
-          Save
+          ذخیره
 
         </Button>
 

@@ -60,14 +60,14 @@ export default function SortSelect({
 
         <MenuItem value="newest">
 
-          Newest
+          جدیدتر
 
         </MenuItem>
 
 
         <MenuItem value="oldest">
 
-          Oldest
+          قدیمی‌تر
 
         </MenuItem>
 

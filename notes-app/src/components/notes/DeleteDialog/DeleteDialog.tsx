@@ -5,6 +5,7 @@ import {
   DialogActions,
   Button,
   Typography,
+  Box,
 } from "@mui/material";
 
 
@@ -44,7 +45,7 @@ export default function DeleteDialog({
 
       <DialogTitle>
 
-        Delete Note
+        حذف نبشت
 
       </DialogTitle>
 
@@ -55,7 +56,7 @@ export default function DeleteDialog({
 
         <Typography>
 
-          Are you sure you want to delete this note?
+          جداً میخوای این نبشت رو به فنا بدی؟
 
         </Typography>
 
@@ -68,43 +69,33 @@ export default function DeleteDialog({
       <DialogActions>
 
 
-        <Button
-
-          onClick={onClose}
-
-        >
-
-          Cancel
-
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 2,
+          width: "100%",
+        }}
+      >
+        <Button onClick={onClose}>
+          نه بابا
         </Button>
 
-
-
-
         <Button
-
           color="error"
-
           variant="contained"
-
           onClick={() => {
-
             onConfirm();
-
             onClose();
-
           }}
-
         >
-
-          Delete
-
+          به فنا بده
         </Button>
-
+      </Box>
 
 
       </DialogActions>
-
 
 
     </Dialog>

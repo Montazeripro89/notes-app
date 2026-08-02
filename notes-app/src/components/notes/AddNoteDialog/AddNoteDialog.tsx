@@ -151,7 +151,7 @@ export default function AddNoteDialog({
 
       <DialogTitle>
 
-        Add Note
+        نبشت جدید
 
       </DialogTitle>
 
@@ -168,7 +168,7 @@ export default function AddNoteDialog({
 
           margin="normal"
 
-          label="Title"
+          label="عنوان"
 
           value={title}
 
@@ -190,7 +190,7 @@ export default function AddNoteDialog({
 
           margin="normal"
 
-          label="Content"
+          label="متن"
 
           multiline
 
@@ -210,39 +210,26 @@ export default function AddNoteDialog({
       </DialogContent>
       
 
-
-      <DialogActions>
-
-
+      <DialogActions
+        sx={{
+          justifyContent: "center",
+          gap: 2,
+        }}
+      >
         <Button
-
           onClick={onClose}
-
         >
-
-          Cancel
-
+          بی‌خیال
         </Button>
-
-
-
-
 
         <Button
-
           variant="contained"
-
           onClick={handleSubmit}
-
         >
-
-          Save
-
+          ذخیره
         </Button>
-
-
-
       </DialogActions>
+
 
       <Snackbar
         sx={{

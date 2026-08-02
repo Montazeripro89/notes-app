@@ -4,6 +4,7 @@ import {
   CardActions,
   Typography,
   Button,
+  Box,
 } from "@mui/material";
 
 
@@ -27,6 +28,8 @@ type NoteCardProps = {
     note: Note
   ) => void;
 
+  onView: (note: Note) => void;
+
 };
 
 
@@ -36,20 +39,29 @@ export default function NoteCard({
   note,
   onDelete,
   onEdit,
+  onView
 }: NoteCardProps) {
 
 
   return (
 
     <Card 
+
+      onClick={() => onView(note)}
+
       sx={{
         borderBottom: '1px solid #a1a1a18e', 
         borderTop: '1px solid #a1a1a18e',
-        }}
+        cursor: "pointer",
+      }}
     >
 
 
-      <CardContent>
+      <CardContent
+        sx={{
+          borderBottom: '1px dotted #878787'  
+        }}
+      >
 
 
         <Typography
@@ -90,36 +102,49 @@ export default function NoteCard({
 
       <CardActions>
 
-
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 2,
+        }}
+      >
         <Button
 
-          onClick={() =>
-            onEdit(note)
-          }
+          onClick={(event) => {
+
+            event.stopPropagation();
+
+            onEdit(note);
+
+          }}
 
         >
 
-          Edit
+          ویرایش
 
         </Button>
-
-
-
-
 
         <Button
 
           color="error"
 
-          onClick={() =>
-            onDelete(note.id)
-          }
+          onClick={(event) => {
+
+            event.stopPropagation();
+
+            onDelete(note.id);
+
+          }}
 
         >
 
-          Delete
+          حذف
 
         </Button>
+      </Box>
 
 
 

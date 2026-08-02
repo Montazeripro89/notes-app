@@ -1,5 +1,5 @@
 export const typography = {
-  fontFamily: `"Roboto","Vazirmatn",sans-serif`,
+  fontFamily: "Vazir",
 
   h1: {
     fontSize: "2.5rem",

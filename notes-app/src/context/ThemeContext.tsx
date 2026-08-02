@@ -1,65 +1,57 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
 
-
-
 import {
-  ThemeProvider as MuiThemeProvider,
-} from "@mui/material/styles";
-
-
-import {
-  CssBaseline,
+  useMediaQuery,
 } from "@mui/material";
 
+import type {
+  PaletteMode,
+} from "@mui/material";
 
 import {
-  getTheme,
-} from "../theme/theme";
+  useCallback,
+} from "react";
 
 
 
+export type ThemeMode =
 
+  | "light"
 
+  | "dark"
 
-type ThemeMode = "light" | "dark";
-
-
+  | "system";
 
 
 
 type ThemeContextType = {
 
+  themeMode: ThemeMode;
 
-  mode: ThemeMode;
+  effectiveMode: PaletteMode;
 
+  setThemeMode: (
+    mode: ThemeMode
+  ) => void;
 
   toggleTheme: () => void;
-
 
 };
 
 
 
-
-
-
-
 const ThemeContext = createContext<
-
   ThemeContextType | undefined
-
->(undefined);
-
-
-
-
-
+>(
+  undefined
+);
 
 
 
@@ -71,12 +63,6 @@ type ThemeProviderProps = {
 
 
 
-
-
-
-
-
-
 export function ThemeProvider({
 
   children,
@@ -85,133 +71,206 @@ export function ThemeProvider({
 
 
 
+  const systemPrefersDark =
+    useMediaQuery(
+      "(prefers-color-scheme: dark)"
+    );
+
+
+
   const [
 
-    mode,
+    themeMode,
 
-    setMode,
+    setThemeMode,
 
   ] = useState<ThemeMode>(() => {
 
-
-    const savedMode =
-
-      localStorage.getItem(
-        "theme-mode"
-      );
+    const saved = localStorage.getItem(
+      "theme-mode"
+    );
 
 
 
-    return savedMode === "dark"
+    if (
 
-      ? "dark"
+      saved === "light" ||
 
-      : "light";
+      saved === "dark" ||
 
+      saved === "system"
+
+    ) {
+
+      return saved;
+
+    }
+
+
+
+    return "system";
 
   });
 
 
 
+  useEffect(() => {
+
+    localStorage.setItem(
+
+      "theme-mode",
+
+      themeMode
+
+    );
+
+  }, [
+
+    themeMode,
+
+  ]);
 
 
 
+  const effectiveMode =
+    useMemo<PaletteMode>(() => {
 
+      if (
+        themeMode === "system"
+      ) {
 
-
-  const toggleTheme = () => {
-
-
-    setMode((previousMode) => {
-
-
-      const newMode =
-
-        previousMode === "light"
+        return systemPrefersDark
 
           ? "dark"
 
           : "light";
 
+      }
 
 
-      localStorage.setItem(
 
-        "theme-mode",
+      return themeMode;
 
-        newMode
+    }, [
+
+      themeMode,
+
+      systemPrefersDark,
+
+    ]);
+
+    useEffect(() => {
+
+      if (themeMode !== "system") {
+
+        return;
+
+      }
+
+      const media = window.matchMedia(
+
+        "(prefers-color-scheme: dark)"
 
       );
 
+      const handleChange = () => {
+
+        // باعث Re-render می‌شود
+        setThemeMode("system");
+
+      };
+
+      media.addEventListener(
+
+        "change",
+
+        handleChange
+
+      );
+
+      return () => {
+
+        media.removeEventListener(
+
+          "change",
+
+          handleChange
+
+        );
+
+      };
+
+    }, [
+
+      themeMode,
+
+    ]);
 
 
-      return newMode;
 
+  const toggleTheme = useCallback(() => {
 
-    });
+    switch (themeMode) {
 
+      case "system":
 
-  };
+        setThemeMode(
 
+          effectiveMode === "dark"
 
+            ? "light"
 
+            : "dark"
 
+        );
 
+        break;
 
+      case "light":
 
+        setThemeMode("dark");
 
+        break;
 
-  const theme = useMemo(
+      case "dark":
 
-    () => getTheme(mode),
+        setThemeMode("light");
 
-    [mode]
+        break;
 
-  );
+    }
 
+  }, [
 
+    themeMode,
 
+    effectiveMode,
 
-
+  ]);
 
 
 
   return (
 
-
     <ThemeContext.Provider
-
 
       value={{
 
-        mode,
+        themeMode,
+
+        effectiveMode,
+
+        setThemeMode,
 
         toggleTheme,
 
       }}
 
-
     >
 
-
-      <MuiThemeProvider
-
-        theme={theme}
-
-      >
-
-
-        <CssBaseline />
-
-
-        {children}
-
-
-      </MuiThemeProvider>
-
+      {children}
 
     </ThemeContext.Provider>
-
 
   );
 
@@ -219,26 +278,17 @@ export function ThemeProvider({
 
 
 
-
-
-
-
-
-
 export function useThemeMode() {
 
 
-  const context = useContext(
-
-    ThemeContext
-
-  );
-
+  const context =
+    useContext(
+      ThemeContext
+    );
 
 
 
   if (!context) {
-
 
     throw new Error(
 
@@ -246,13 +296,10 @@ export function useThemeMode() {
 
     );
 
-
   }
 
 
 
-
   return context;
-
 
 }

@@ -9,6 +9,10 @@
   src: url(../assets/font/Vazir.ttf);
 }
 
+*{
+  font-family: 'Vazir';
+}
+
 html,
 body,
 #root {

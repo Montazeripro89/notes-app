@@ -38,7 +38,7 @@ export default function Header() {
 
         >
 
-          Notes App
+          نبشت
 
         </Typography>
 

@@ -51,7 +51,7 @@ export default function SearchBar({
         onChange(event.target.value)
       }
 
-      placeholder="Search notes..."
+      placeholder="جستجو..."
 
     />
 

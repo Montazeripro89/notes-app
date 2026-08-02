@@ -20,7 +20,7 @@ export default function EmptyState() {
         }} 
         variant="h6"
         >
-        No notes available
+         شرمنده چیزی نداریم تو دیتا 
       </Typography>
 
 

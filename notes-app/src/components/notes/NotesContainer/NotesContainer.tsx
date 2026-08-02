@@ -15,6 +15,8 @@ import NoteList from "../NoteList";
 
 import EmptyState from "../EmptyState";
 
+import ViewNoteDialog from "../ViewNoteDialog";
+
 import EditNoteDialog from "../EditNoteDialog";
 
 import DeleteDialog from "../DeleteDialog";
@@ -55,6 +57,7 @@ import type {
 import type {
   Note,
 } from "../../../types/Note";
+import ThemeToggle from "../../common/ThemeToggle";
 
 
 
@@ -74,7 +77,13 @@ export default function NotesContainer() {
   } = useNotes();
 
 
+  const [
 
+    viewingNote,
+
+    setViewingNote,
+
+  ] = useState<Note | null>(null);
 
 
   const [
@@ -146,10 +155,6 @@ export default function NotesContainer() {
 
 
 
-
-
-
-
   const {
 
     filteredNotes,
@@ -183,7 +188,15 @@ export default function NotesContainer() {
 
 
 
+  const handleView = (
 
+    note: Note
+
+  ) => {
+
+    setViewingNote(note);
+
+  };
 
   const handleEdit = (
 
@@ -289,13 +302,15 @@ export default function NotesContainer() {
 
     <>
 
+      <ThemeToggle />
+
       <Fab
 
         color="primary"
 
         sx={{
           position: 'fixed',
-          right: 24,
+          left: 24,
           bottom: 24,
         }}
 
@@ -310,9 +325,6 @@ export default function NotesContainer() {
       </Fab>
 
 
-
-
-
       <SearchBar
 
         value={query}
@@ -323,8 +335,6 @@ export default function NotesContainer() {
 
 
 
-
-
       <SortSelect
 
         value={sortOrder}
@@ -332,8 +342,6 @@ export default function NotesContainer() {
         onChange={setSortOrder}
 
       />
-
-
 
 
 
@@ -357,6 +365,8 @@ export default function NotesContainer() {
 
               onEdit={handleEdit}
 
+              onView={handleView}
+
             />
           </Box>
           
@@ -369,66 +379,88 @@ export default function NotesContainer() {
 
 
 
-      <AddNoteDialog
+        <AddNoteDialog
 
-        open={addDialog.open}
+          open={addDialog.open}
 
-        onClose={
-          addDialog.handleClose
-        }
+          onClose={
+            addDialog.handleClose
+          }
 
-        onSave={addNote}
+          onSave={addNote}
 
-      />
-
-
+        />
 
 
+
+
+
+
+      <Box 
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: "row"
+        }}
+      >
 
 
 
       <EditNoteDialog
 
-        open={editDialog.open}
+          open={editDialog.open}
 
-        note={selectedNote}
+          note={selectedNote}
 
-        onClose={() => {
+          onClose={() => {
 
-          setSelectedNote(null);
+            setSelectedNote(null);
 
-          editDialog.handleClose();
+            editDialog.handleClose();
 
-        }}
+          }}
 
-        onSave={handleSave}
-
-      />
-
-
-
-
-
-
-
-
-      <DeleteDialog
-
-        open={deleteDialog.open}
-
-        onClose={() => {
-
-          setSelectedDeleteId(null);
-
-          deleteDialog.handleClose();
-
-        }}
-
-        onConfirm={
-          handleDeleteConfirm
-        }
+          onSave={handleSave}
 
       />
+
+
+
+        <DeleteDialog
+
+          open={deleteDialog.open}
+
+          onClose={() => {
+
+            setSelectedDeleteId(null);
+
+            deleteDialog.handleClose();
+
+          }}
+
+          onConfirm={
+            handleDeleteConfirm
+          }
+
+        />
+
+        <ViewNoteDialog
+
+          open={Boolean(viewingNote)}
+
+          note={viewingNote}
+
+          onClose={() =>
+
+            setViewingNote(null)
+
+          }
+
+        />
+
+
+      </Box>
 
 
     </>

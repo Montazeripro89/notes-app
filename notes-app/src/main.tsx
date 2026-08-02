@@ -1,28 +1,23 @@
 import React from "react";
-
-
 import ReactDOM from "react-dom/client";
 
+import { CacheProvider } from "@emotion/react";
 
 import App from "./App";
 
+import "./styles/globals.css";
 
-import {
-  NotesProvider,
-} from "./context/NotesContext";
+import rtlCache from "./theme/rtlCache";
 
+import AppThemeProvider from "./theme/ThemeProvider";
 
 import {
   ThemeProvider,
 } from "./context/ThemeContext";
 
-
-
-import "./styles/globals.css";
-
-
-
-
+import {
+  NotesProvider,
+} from "./context/NotesContext";
 
 
 
@@ -32,26 +27,26 @@ ReactDOM.createRoot(
 
 ).render(
 
-
   <React.StrictMode>
 
+    <CacheProvider value={rtlCache}>
 
-    <ThemeProvider>
+      <ThemeProvider>
 
+        <AppThemeProvider>
 
-      <NotesProvider>
+          <NotesProvider>
 
+            <App />
 
-        <App />
+          </NotesProvider>
 
+        </AppThemeProvider>
 
-      </NotesProvider>
+      </ThemeProvider>
 
-
-    </ThemeProvider>
-
+    </CacheProvider>
 
   </React.StrictMode>
-
 
 );

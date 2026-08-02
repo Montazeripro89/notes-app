@@ -26,6 +26,8 @@ export const getTheme = (
 
   return createTheme({
 
+    direction: "rtl",
+
     palette:
 
       mode === "dark"
