@@ -28,8 +28,6 @@ type NoteCardProps = {
     note: Note
   ) => void;
 
-  onView: (note: Note) => void;
-
   behavior: boolean
 
 };
@@ -41,7 +39,6 @@ export default function NoteCard({
   note,
   onDelete,
   onEdit,
-  onView,
   behavior
 }: NoteCardProps) {
 
@@ -50,7 +47,14 @@ export default function NoteCard({
 
     <Card 
 
-      onClick={() => onView(note)}
+      onClick={(event) => {
+
+        event.stopPropagation();
+
+        onEdit(note);
+
+      }}
+
 
       sx={{
         borderBottom: '1px solid #a1a1a18e', 
@@ -114,21 +118,6 @@ export default function NoteCard({
           gap: 2,
         }}
       >
-        <Button
-
-          onClick={(event) => {
-
-            event.stopPropagation();
-
-            onEdit(note);
-
-          }}
-
-        >
-
-          ویرایش
-
-        </Button>
 
         <Button
 

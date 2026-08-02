@@ -19,8 +19,6 @@ type NoteListProps = {
     note: Note
   ) => void;
 
-  onView: (note: Note) => void;
-
   behavior: boolean
 
 };
@@ -32,7 +30,6 @@ export default function NoteList({
   notes,
   onDelete,
   onEdit,
-  onView,
   behavior
 }: NoteListProps) {
 
@@ -53,8 +50,6 @@ export default function NoteList({
             onDelete={onDelete}
 
             onEdit={onEdit}
-            
-            onView={onView}
 
             behavior={behavior}
 

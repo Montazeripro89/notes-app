@@ -20,8 +20,6 @@ import NoteList from "../NoteList";
 
 import EmptyState from "../EmptyState";
 
-import ViewNoteDialog from "../ViewNoteDialog";
-
 import EditNoteDialog from "../EditNoteDialog";
 
 import DeleteDialog from "../DeleteDialog";
@@ -93,14 +91,6 @@ export default function NotesContainer() {
     setOpenBar
   
   ] = useState(false);
-
-  const [
-
-    viewingNote,
-
-    setViewingNote,
-
-  ] = useState<Note | null>(null);
 
 
   const [
@@ -202,19 +192,6 @@ export default function NotesContainer() {
 
   );
 
-
-
-
-
-  const handleView = (
-
-    note: Note
-
-  ) => {
-
-    setViewingNote(note);
-
-  };
 
   const handleEdit = (
 
@@ -429,8 +406,6 @@ export default function NotesContainer() {
 
               onEdit={handleEdit}
 
-              onView={handleView}
-
               behavior={languageDialog.behavior}
 
             />
@@ -438,10 +413,6 @@ export default function NotesContainer() {
           
 
       }
-
-
-
-
 
 
 
@@ -517,22 +488,6 @@ export default function NotesContainer() {
 
         />
 
-        <ViewNoteDialog
-
-          open={Boolean(viewingNote)}
-
-          note={viewingNote}
-
-          onClose={() =>
-
-            setViewingNote(null)
-
-          }
-
-          behavior={languageDialog.behavior}
-
-        />
-
 
       </Box>
 
@@ -559,7 +514,7 @@ export default function NotesContainer() {
           {
             languageDialog.behavior
 
-            ? "خبری نیست؛ فقط باهات پسرخاله شد"
+            ? "خبری نیست؛ فقط «نبشت» باهات پسرخاله شد"
 
             : "دفترچه یادداشت به حالت «مؤدب» در آمد"
           }

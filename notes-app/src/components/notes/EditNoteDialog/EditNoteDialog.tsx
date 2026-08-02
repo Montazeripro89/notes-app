@@ -216,7 +216,7 @@ export default function EditNoteDialog({
 
           {
             behavior 
-            ? "بی‌خیال"
+            ? "ببندش بهره بردیم"
             : "بستن"
           } 
 
