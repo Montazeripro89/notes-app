@@ -20,6 +20,8 @@ type DeleteDialogProps = {
 
   onConfirm: () => void;
 
+  behavior: boolean
+
 };
 
 
@@ -29,6 +31,7 @@ export default function DeleteDialog({
   open,
   onClose,
   onConfirm,
+  behavior,
 }: DeleteDialogProps) {
 
 
@@ -45,7 +48,11 @@ export default function DeleteDialog({
 
       <DialogTitle>
 
-        حذف نبشت
+        {
+          behavior 
+          ? "نابود سازی نبشت"
+          : "حذف نبشت"
+        } 
 
       </DialogTitle>
 
@@ -56,7 +63,11 @@ export default function DeleteDialog({
 
         <Typography>
 
-          جداً میخوای این نبشت رو به فنا بدی؟
+            {
+              behavior 
+              ? " جداً میخوای این نبشت رو از جمع مطالب ارزشمندتون حذف کنی؟"
+              : "آیا از حذف این نبشت مطمئن هستید؟"
+            } 
 
         </Typography>
 
@@ -79,7 +90,11 @@ export default function DeleteDialog({
         }}
       >
         <Button onClick={onClose}>
-          نه بابا
+          {
+            behavior 
+            ? "نه‌بابا"
+            : "بستن"
+          } 
         </Button>
 
         <Button
@@ -90,7 +105,11 @@ export default function DeleteDialog({
             onClose();
           }}
         >
-          به فنا بده
+          {
+            behavior 
+            ? "نابودش کن"
+            : "حذف"
+          } 
         </Button>
       </Box>
 

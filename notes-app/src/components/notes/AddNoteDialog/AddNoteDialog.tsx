@@ -38,6 +38,8 @@ type AddNoteDialogProps = {
     note: Note
   ) => void;
 
+  behavior: boolean
+
 };
 
 
@@ -51,6 +53,8 @@ export default function AddNoteDialog({
   onClose,
 
   onSave,
+
+  behavior,
 
 }: AddNoteDialogProps) {
 
@@ -190,7 +194,12 @@ export default function AddNoteDialog({
 
           margin="normal"
 
-          label="متن"
+          label= 
+            {
+              behavior 
+              ? "متن ارزشمندتون"
+              : "متن"
+            } 
 
           multiline
 
@@ -219,14 +228,22 @@ export default function AddNoteDialog({
         <Button
           onClick={onClose}
         >
-          بی‌خیال
+          {
+            behavior 
+            ? "بی‌خیال"
+            : "بستن"
+          } 
         </Button>
 
         <Button
           variant="contained"
           onClick={handleSubmit}
         >
-          ذخیره
+          {
+            behavior 
+            ? "بزار تو دیتا"
+            : "ذخیره"
+          } 
         </Button>
       </DialogActions>
 
@@ -241,7 +258,7 @@ export default function AddNoteDialog({
         open={openBar}
         autoHideDuration={3000}
         onClose={handleClose}
-        message="Enter the form values correctly"
+        message="لطفاً تمامی مقادیر را به درستی وارد کنید"
       />
 
     </Dialog>

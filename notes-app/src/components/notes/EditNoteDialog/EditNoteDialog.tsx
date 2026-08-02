@@ -34,6 +34,8 @@ type EditNoteDialogProps = {
     note: Note
   ) => void;
 
+  behavior: boolean
+
 };
 
 
@@ -43,6 +45,7 @@ export default function EditNoteDialog({
   note,
   onClose,
   onSave,
+  behavior,
 }: EditNoteDialogProps) {
 
 
@@ -175,11 +178,15 @@ export default function EditNoteDialog({
 
           multiline
 
-          rows={4}
-
           margin="normal"
 
-          label="متن ارزشمندتون"
+          label=
+            {
+              behavior 
+              ? "مطلب ارزشمندتون"
+              : "متن"
+            } 
+              
 
           value={content}
 
@@ -207,7 +214,11 @@ export default function EditNoteDialog({
           onClick={onClose}
         >
 
-          بی‌خیال
+          {
+            behavior 
+            ? "بی‌خیال"
+            : "بستن"
+          } 
 
         </Button>
 
@@ -221,7 +232,11 @@ export default function EditNoteDialog({
 
         >
 
-          ذخیره
+          {
+            behavior 
+            ? "بزار تو دیتا"
+            : "ذخیره"
+          } 
 
         </Button>
 
@@ -239,7 +254,7 @@ export default function EditNoteDialog({
         open={openBar}
         autoHideDuration={3000}
         onClose={handleClose}
-        message="Enter the form values correctly"
+        message= "لطفاً تمامی مقادیر را به درستی وارد کنید"
       />
 
     </Dialog>

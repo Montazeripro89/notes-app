@@ -30,6 +30,8 @@ type NoteCardProps = {
 
   onView: (note: Note) => void;
 
+  behavior: boolean
+
 };
 
 
@@ -39,7 +41,8 @@ export default function NoteCard({
   note,
   onDelete,
   onEdit,
-  onView
+  onView,
+  behavior
 }: NoteCardProps) {
 
 
@@ -141,7 +144,13 @@ export default function NoteCard({
 
         >
 
-          حذف
+          {
+            behavior
+
+            ? "نابود کردن"
+
+            : "حذف"
+          }
 
         </Button>
       </Box>

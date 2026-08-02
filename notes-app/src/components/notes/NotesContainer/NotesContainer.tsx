@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useState,
 } from "react";
 
@@ -6,9 +7,13 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 
 import {
+  Alert,
   Box,
   Fab,
+  Snackbar,
 } from "@mui/material";
+
+import type { SnackbarCloseReason } from "@mui/material/Snackbar";
 
 
 import NoteList from "../NoteList";
@@ -48,6 +53,10 @@ import {
   useDialog,
 } from "../../../hook/useDialog";
 
+import {
+  useLanguageMode,
+} from "../../../hook/useLanguageMode";
+
 
 import type {
   SortOrder,
@@ -76,6 +85,14 @@ export default function NotesContainer() {
 
   } = useNotes();
 
+
+  const [
+    
+    openBar, 
+    
+    setOpenBar
+  
+  ] = useState(false);
 
   const [
 
@@ -153,7 +170,8 @@ export default function NotesContainer() {
   const deleteDialog =
     useDialog();
 
-
+  const languageDialog = 
+    useLanguageMode();
 
   const {
 
@@ -260,7 +278,16 @@ export default function NotesContainer() {
 
 
 
-
+  const handleClose = (
+      _event: React.SyntheticEvent | Event,
+      reason?: SnackbarCloseReason,
+    ) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpenBar(false);
+  };
 
 
 
@@ -294,7 +321,11 @@ export default function NotesContainer() {
 
 
 
-
+  useEffect(() => {
+    return () => {
+      setOpenBar(true)
+    };
+  }, [languageDialog.behavior]);
 
 
 
@@ -321,6 +352,39 @@ export default function NotesContainer() {
       >
 
         <AddIcon/>
+
+      </Fab>
+
+      <Fab
+
+        color="info"
+
+        sx={{
+          position: 'fixed',
+          right: 24,
+          bottom: 96,
+        }}
+
+        onClick={
+            languageDialog.handleBuehavior
+        }
+
+      >
+        {
+          languageDialog.behavior
+
+          ? <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 10H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M8 13H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+
+          : <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="10" r="1.5" fill="currentColor"/>
+            </svg>
+        }
+        
 
       </Fab>
 
@@ -367,6 +431,8 @@ export default function NotesContainer() {
 
               onView={handleView}
 
+              behavior={languageDialog.behavior}
+
             />
           </Box>
           
@@ -388,6 +454,8 @@ export default function NotesContainer() {
           }
 
           onSave={addNote}
+
+          behavior={languageDialog.behavior}
 
         />
 
@@ -423,6 +491,8 @@ export default function NotesContainer() {
 
           onSave={handleSave}
 
+          behavior={languageDialog.behavior}
+
       />
 
 
@@ -443,6 +513,8 @@ export default function NotesContainer() {
             handleDeleteConfirm
           }
 
+          behavior={languageDialog.behavior}
+
         />
 
         <ViewNoteDialog
@@ -457,10 +529,42 @@ export default function NotesContainer() {
 
           }
 
+          behavior={languageDialog.behavior}
+
         />
 
 
       </Box>
+
+      <Snackbar
+        sx={{
+          position: 'fixed',
+          bottom: 10,
+          "& .MuiSnackbarContent-message": {
+            width: "100%",
+            textAlign: "center",
+          },
+        }}  
+        open={openBar}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        
+      >
+        <Alert
+          severity="success"
+          sx={{
+            width: "100%",
+          }}
+        >
+          {
+            languageDialog.behavior
+
+            ? "خبری نیست؛ فقط باهات پسرخاله شد"
+
+            : "دفترچه یادداشت به حالت «مؤدب» در آمد"
+          }
+        </Alert>
+      </Snackbar>
 
 
     </>

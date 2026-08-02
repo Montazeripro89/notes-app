@@ -21,6 +21,8 @@ type ViewNoteDialogProps = {
 
   onClose: () => void;
 
+  behavior: boolean
+
 };
 
 
@@ -32,6 +34,8 @@ export default function ViewNoteDialog({
   note,
 
   onClose,
+
+  behavior
 
 }: ViewNoteDialogProps) {
 
@@ -105,7 +109,13 @@ export default function ViewNoteDialog({
           onClick={onClose}
         >
 
-          بستن
+          {
+            behavior
+
+            ? "واقعاً بهره بردیم"
+
+            : "بستن"
+          }
 
         </Button>
 
