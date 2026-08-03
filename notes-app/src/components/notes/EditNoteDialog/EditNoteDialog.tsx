@@ -74,7 +74,19 @@ export default function EditNoteDialog({
 
   }, [note]);
 
-  const [openBar, setOpenBar] = useState(false);
+  const [
+
+    openBar,
+
+    setOpenBar,
+
+  ] = useState(() => {
+
+    console.log("State Initialized");
+
+    return false;
+
+  });
   
     const handleOpen = () => {
       setOpenBar(true);
