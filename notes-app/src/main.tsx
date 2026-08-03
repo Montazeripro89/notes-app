@@ -27,8 +27,8 @@ ReactDOM.createRoot(
 
 ).render(
 
-  <React.StrictMode>
-
+  // <React.StrictMode>
+  <>
     <CacheProvider value={rtlCache}>
 
       <ThemeProvider>
@@ -46,7 +46,7 @@ ReactDOM.createRoot(
       </ThemeProvider>
 
     </CacheProvider>
-
-  </React.StrictMode>
+  </>
+  // </React.StrictMode>
 
 );

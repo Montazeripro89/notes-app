@@ -1,8 +1,8 @@
 import {
   useEffect,
+  useRef,
   useState,
 } from "react";
-
 
 import AddIcon from '@mui/icons-material/Add';
 
@@ -192,6 +192,8 @@ export default function NotesContainer() {
 
   );
 
+  const firstRender = useRef(true);
+
 
   const handleEdit = (
 
@@ -296,13 +298,21 @@ export default function NotesContainer() {
 
   };
 
+    console.log("Render", languageDialog.behavior);
+
+    useEffect(() => {
+
+      console.log(
+        "Effect",
+        languageDialog.behavior,
+        firstRender.current
+      );
+
+      console.log("OPEN SNACKBAR");
+
+    }, [languageDialog.behavior]);
 
 
-  useEffect(() => {
-    return () => {
-      setOpenBar(true)
-    };
-  }, [languageDialog.behavior]);
 
 
 
@@ -343,7 +353,7 @@ export default function NotesContainer() {
         }}
 
         onClick={
-            languageDialog.handleBuehavior
+            languageDialog.handleBehavior
         }
 
       >
