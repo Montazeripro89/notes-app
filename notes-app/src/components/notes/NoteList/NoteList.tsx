@@ -1,10 +1,12 @@
+import {
+  Box,
+} from "@mui/material";
+
 import NoteCard from "../NoteCard";
 
 import type {
   Note,
 } from "../../../types/Note";
-
-
 
 type NoteListProps = {
 
@@ -14,31 +16,28 @@ type NoteListProps = {
     id: string
   ) => void;
 
-
   onEdit: (
     note: Note
   ) => void;
 
-  behavior: boolean
-
 };
 
-
-
-
 export default function NoteList({
-  notes,
-  onDelete,
-  onEdit,
-  behavior
-}: NoteListProps) {
 
+  notes,
+
+  onDelete,
+
+  onEdit,
+
+}: NoteListProps) {
 
   return (
 
-    <>
-    
+    <Box>
+
       {
+
         notes.map((note) => (
 
           <NoteCard
@@ -51,15 +50,13 @@ export default function NoteList({
 
             onEdit={onEdit}
 
-            behavior={behavior}
-
           />
 
         ))
+
       }
 
-
-    </>
+    </Box>
 
   );
 

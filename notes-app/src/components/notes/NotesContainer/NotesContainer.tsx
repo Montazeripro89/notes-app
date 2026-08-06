@@ -4,7 +4,7 @@ import {
   useState,
 } from "react";
 
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 
 import {
   Alert,
@@ -13,39 +13,30 @@ import {
   Snackbar,
 } from "@mui/material";
 
-import type { SnackbarCloseReason } from "@mui/material/Snackbar";
-
+import type {
+  SnackbarCloseReason,
+} from "@mui/material/Snackbar";
 
 import NoteList from "../NoteList";
-
 import EmptyState from "../EmptyState";
-
 import EditNoteDialog from "../EditNoteDialog";
-
 import DeleteDialog from "../DeleteDialog";
-
 import AddNoteDialog from "../AddNoteDialog";
 
-
 import SearchBar from "../../common/SearchBar";
-
 import SortSelect from "../../common/SortSelect";
-
 
 import {
   useNotes,
 } from "../../../context/NotesContext";
 
-
 import {
   useSearch,
 } from "../../../hook/useSearch";
 
-
 import {
   useSort,
 } from "../../../hook/useSort";
-
 
 import {
   useDialog,
@@ -55,21 +46,15 @@ import {
   useLanguageMode,
 } from "../../../hook/useLanguageMode";
 
-
 import type {
   SortOrder,
 } from "../../../utils/sort";
 
-
 import type {
   Note,
 } from "../../../types/Note";
-import ThemeToggle from "../../common/ThemeToggle";
-
-
 
 export default function NotesContainer() {
-
 
   const {
 
@@ -83,15 +68,13 @@ export default function NotesContainer() {
 
   } = useNotes();
 
-
   const [
-    
-    openBar, 
-    
-    setOpenBar
-  
-  ] = useState(false);
 
+    openBar,
+
+    setOpenBar,
+
+  ] = useState(false);
 
   const [
 
@@ -101,23 +84,13 @@ export default function NotesContainer() {
 
   ] = useState("");
 
-
-
-
-
   const [
 
     sortOrder,
 
     setSortOrder,
 
-  ] = useState<SortOrder>(
-    "newest"
-  );
-
-
-
-
+  ] = useState<SortOrder>("newest");
 
   const [
 
@@ -125,13 +98,7 @@ export default function NotesContainer() {
 
     setSelectedNote,
 
-  ] = useState<Note | null>(
-    null
-  );
-
-
-
-
+  ] = useState<Note | null>(null);
 
   const [
 
@@ -139,28 +106,18 @@ export default function NotesContainer() {
 
     setSelectedDeleteId,
 
-  ] = useState<string | null>(
-    null
-  );
-
-
-
-
+  ] = useState<string | null>(null);
 
   const addDialog =
     useDialog();
 
-
-
   const editDialog =
     useDialog();
-
-
 
   const deleteDialog =
     useDialog();
 
-  const languageDialog = 
+  const languageDialog =
     useLanguageMode();
 
   const {
@@ -175,11 +132,6 @@ export default function NotesContainer() {
 
   );
 
-
-
-
-
-
   const {
 
     sortedNotes,
@@ -192,208 +144,311 @@ export default function NotesContainer() {
 
   );
 
-  const firstRender = useRef(true);
-
+  const firstRender =
+    useRef(true);
 
   const handleEdit = (
-
     note: Note
-
   ) => {
-
 
     setSelectedNote(note);
 
-
     editDialog.handleOpen();
-
 
   };
 
-
-
-
-
-
-
   const handleSave = (
-
     note: Note
-
   ) => {
-
 
     updateNote(note);
 
-
     setSelectedNote(null);
-
 
     editDialog.handleClose();
 
-
   };
 
-
-
-
-
-
-
   const handleDelete = (
-
     id: string
-
   ) => {
-
 
     setSelectedDeleteId(id);
 
-
     deleteDialog.handleOpen();
 
-
   };
-
-
-
-  const handleClose = (
-      _event: React.SyntheticEvent | Event,
-      reason?: SnackbarCloseReason,
-    ) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-  
-      setOpenBar(false);
-  };
-
-
 
   const handleDeleteConfirm = () => {
 
+    if (!selectedDeleteId)
+      return;
 
-    if (!selectedDeleteId) {
+    deleteNote(selectedDeleteId);
+
+    setSelectedDeleteId(null);
+
+    deleteDialog.handleClose();
+
+  };
+
+  const handleCloseBar = (
+    _event: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason,
+  ) => {
+
+    if (reason === "clickaway")
+      return;
+
+    setOpenBar(false);
+
+  };
+
+  useEffect(() => {
+
+    if (firstRender.current) {
+
+      firstRender.current = false;
 
       return;
 
     }
 
+    setOpenBar(true);
 
+  }, [
 
-    deleteNote(
+    languageDialog.behavior,
 
-      selectedDeleteId
+  ]);
 
-    );
-
-
-
-    setSelectedDeleteId(null);
-
-
-
-    deleteDialog.handleClose();
-
-
-  };
-
-    useEffect(() => {
-
-      if (firstRender.current) {
-
-        firstRender.current = false;
-
-        return;
-
-      }
-      
-      setOpenBar(true);
-
-    }, [languageDialog.behavior]);
-
-
-
-
-
-  return (
+    return (
 
     <>
-
-      <ThemeToggle />
 
       <Fab
 
         color="primary"
 
-        sx={{
-          position: 'fixed',
-          left: 24,
-          bottom: 24,
-        }}
+        onClick={addDialog.handleOpen}
 
-        onClick={
-          addDialog.handleOpen
-        }
+        sx={{
+
+          position: "fixed",
+
+          left: 24,
+
+          bottom: 24,
+
+          width: 60,
+
+          height: 60,
+
+          boxShadow: 5,
+
+          transition: ".25s",
+
+          zIndex: 1000,
+
+          "&:hover": {
+
+            transform: "scale(1.06)",
+
+            boxShadow: 8,
+
+          },
+
+        }}
 
       >
 
-        <AddIcon/>
+        <AddIcon />
 
       </Fab>
+
+
 
       <Fab
 
         color="info"
 
+        onClick={languageDialog.handleBehavior}
+
         sx={{
-          position: 'fixed',
+
+          position: "fixed",
+
           right: 24,
+
           bottom: 96,
+
+          width: 56,
+
+          height: 56,
+
+          boxShadow: 4,
+
+          transition: ".25s",
+
+          zIndex: 1000,
+
+          "&:hover": {
+
+            transform: "scale(1.06)",
+
+            boxShadow: 7,
+
+          },
+
         }}
 
-        onClick={
-          languageDialog.handleBehavior
-        }
-
       >
+
         {
+
           languageDialog.behavior
 
-          ? <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M8 10H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              <path d="M8 13H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            ?
+
+            <svg
+
+              width="24"
+
+              height="24"
+
+              viewBox="0 0 24 24"
+
+              fill="none"
+
+              xmlns="http://www.w3.org/2000/svg"
+
+            >
+
+              <path
+
+                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"
+
+                stroke="currentColor"
+
+                strokeWidth="2"
+
+                strokeLinecap="round"
+
+                strokeLinejoin="round"
+
+              />
+
+              <path
+
+                d="M8 10H16"
+
+                stroke="currentColor"
+
+                strokeWidth="2"
+
+                strokeLinecap="round"
+
+              />
+
+              <path
+
+                d="M8 13H13"
+
+                stroke="currentColor"
+
+                strokeWidth="2"
+
+                strokeLinecap="round"
+
+              />
+
             </svg>
 
-          : <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <circle cx="12" cy="10" r="1.5" fill="currentColor"/>
+            :
+
+            <svg
+
+              width="24"
+
+              height="24"
+
+              viewBox="0 0 24 24"
+
+              fill="none"
+
+              xmlns="http://www.w3.org/2000/svg"
+
+            >
+
+              <path
+
+                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"
+
+                stroke="currentColor"
+
+                strokeWidth="2"
+
+                strokeLinecap="round"
+
+                strokeLinejoin="round"
+
+              />
+
+              <circle
+
+                cx="12"
+
+                cy="10"
+
+                r="1.5"
+
+                fill="currentColor"
+
+              />
+
             </svg>
+
         }
-        
 
       </Fab>
 
 
-      <SearchBar
 
-        value={query}
+      <Box
 
-        onChange={setQuery}
+        sx={{
 
-      />
+          display: "flex",
+
+          alignItems: "center",
+
+          gap: 1.5,
+
+          mb: 2,
+
+        }}
+
+      >
+
+        <SearchBar
+
+          value={query}
+
+          onChange={setQuery}
+
+        />
 
 
 
-      <SortSelect
+        <SortSelect
 
-        value={sortOrder}
+          value={sortOrder}
 
-        onChange={setSortOrder}
+          onChange={setSortOrder}
 
-      />
+        />
 
+      </Box>
 
 
 
@@ -405,9 +460,18 @@ export default function NotesContainer() {
 
           <EmptyState />
 
-
           :
-          <Box sx={{ mt: 2 }}>
+
+          <Box
+
+            sx={{
+
+              mt: 1,
+
+            }}
+
+          >
+
             <NoteList
 
               notes={sortedNotes}
@@ -416,121 +480,121 @@ export default function NotesContainer() {
 
               onEdit={handleEdit}
 
-              behavior={languageDialog.behavior}
-
             />
+
           </Box>
-          
 
       }
 
+            <AddNoteDialog
 
+        open={addDialog.open}
 
-        <AddNoteDialog
+        onClose={addDialog.handleClose}
 
-          open={addDialog.open}
+        onSave={addNote}
 
-          onClose={
-            addDialog.handleClose
-          }
-
-          onSave={addNote}
-
-          behavior={languageDialog.behavior}
-
-        />
-
-
-
-
-
-
-      <Box 
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: "row"
-        }}
-      >
-
-
-
-      <EditNoteDialog
-
-          open={editDialog.open}
-
-          note={selectedNote}
-
-          onClose={() => {
-
-            setSelectedNote(null);
-
-            editDialog.handleClose();
-
-          }}
-
-          onSave={handleSave}
-
-          behavior={languageDialog.behavior}
+        behavior={languageDialog.behavior}
 
       />
 
 
 
-        <DeleteDialog
+      <EditNoteDialog
 
-          open={deleteDialog.open}
+        open={editDialog.open}
 
-          onClose={() => {
+        note={selectedNote}
 
-            setSelectedDeleteId(null);
+        onClose={() => {
 
-            deleteDialog.handleClose();
+          setSelectedNote(null);
 
-          }}
+          editDialog.handleClose();
 
-          onConfirm={
-            handleDeleteConfirm
-          }
+        }}
 
-          behavior={languageDialog.behavior}
+        onSave={handleSave}
 
-        />
+        behavior={languageDialog.behavior}
+
+      />
 
 
-      </Box>
+
+      <DeleteDialog
+
+        open={deleteDialog.open}
+
+        onClose={() => {
+
+          setSelectedDeleteId(null);
+
+          deleteDialog.handleClose();
+
+        }}
+
+        onConfirm={handleDeleteConfirm}
+
+        behavior={languageDialog.behavior}
+
+      />
+
+
 
       <Snackbar
-        sx={{
-          position: 'fixed',
-          bottom: 10,
-          "& .MuiSnackbarContent-message": {
-            width: "100%",
-            textAlign: "center",
-          },
-        }}  
+
         open={openBar}
+
         autoHideDuration={3000}
-        onClose={handleClose}
-        
+
+        onClose={handleCloseBar}
+
+        anchorOrigin={{
+
+          vertical: "bottom",
+
+          horizontal: "center",
+
+        }}
+
       >
+
         <Alert
+
           severity="success"
+
+          variant="filled"
+
           sx={{
+
             width: "100%",
+
+            borderRadius: 2,
+
+            boxShadow: 4,
+
           }}
+
         >
+
           {
+
             languageDialog.behavior
 
-            ? "خبری نیست؛ فقط «نبشت» باهات پسرخاله شد"
+              ?
 
-            : "دفترچه یادداشت به حالت «مؤدب» در آمد"
+              "خبری نیست؛ فقط «نبشت» باهات پسرخاله شد."
+
+              :
+
+              "دفترچه یادداشت به حالت «مؤدب» درآمد."
+
           }
-        </Alert>
-      </Snackbar>
 
+        </Alert>
+
+      </Snackbar>
 
     </>
 

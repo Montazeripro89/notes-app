@@ -1,47 +1,51 @@
 import {
-  FormControl,
-  MenuItem,
-  Select,
-} from "@mui/material";
 
+  FormControl,
+
+  MenuItem,
+
+  Select,
+
+} from "@mui/material";
 
 type SortOrder =
 
-  "newest"
+  | "newest"
 
-  |
-
-  "oldest";
-
-
+  | "oldest";
 
 type SortSelectProps = {
 
   value: SortOrder;
 
   onChange: (
+
     value: SortOrder
+
   ) => void;
 
 };
 
-
-
 export default function SortSelect({
-  value,
-  onChange,
-}: SortSelectProps) {
 
+  value,
+
+  onChange,
+
+}: SortSelectProps) {
 
   return (
 
-    <FormControl 
+    <FormControl
+
+      size="small"
+
       sx={{
-        width: '30vw',
-        "& .MuiOutlinedInput-root": {
-          borderRadius: 0,
-        },
+
+        width: 140,
+
       }}
+
     >
 
       <Select
@@ -51,10 +55,42 @@ export default function SortSelect({
         onChange={(event) =>
 
           onChange(
+
             event.target.value as SortOrder
+
           )
 
         }
+
+        sx={{
+
+          height: 46,
+
+          borderRadius: 2,
+
+          marginTop: 2,
+
+          "& .MuiOutlinedInput-notchedOutline": {
+
+            borderColor: "#cccccc77",
+
+          },
+
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+
+            borderColor: "#cccccc77",
+
+          },
+
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+
+            borderColor: "#cccccc77",
+
+            borderWidth: 1,
+
+          },
+
+        }}
 
       >
 
@@ -64,16 +100,13 @@ export default function SortSelect({
 
         </MenuItem>
 
-
         <MenuItem value="oldest">
 
           قدیمی‌تر
 
         </MenuItem>
 
-
       </Select>
-
 
     </FormControl>
 

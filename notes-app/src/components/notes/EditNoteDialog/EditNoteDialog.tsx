@@ -1,13 +1,14 @@
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
+  Alert,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Snackbar,
   TextField,
 } from "@mui/material";
 
-import Snackbar from '@mui/material/Snackbar';
 import type { SnackbarCloseReason } from "@mui/material/Snackbar";
 
 import {
@@ -15,12 +16,9 @@ import {
   useState,
 } from "react";
 
-
 import type {
   Note,
 } from "../../../types/Note";
-
-
 
 type EditNoteDialogProps = {
 
@@ -34,34 +32,55 @@ type EditNoteDialogProps = {
     note: Note
   ) => void;
 
-  behavior: boolean
+  behavior: boolean;
 
 };
 
-
-
 export default function EditNoteDialog({
+
   open,
+
   note,
+
   onClose,
+
   onSave,
+
   behavior,
+
 }: EditNoteDialogProps) {
 
+  const [
 
-  const [title, setTitle] =
-    useState("");
+    title,
+
+    setTitle,
+
+  ] = useState("");
 
 
 
-  const [content, setContent] =
-    useState("");
+  const [
 
+    content,
+
+    setContent,
+
+  ] = useState("");
+
+
+
+  const [
+
+    openBar,
+
+    setOpenBar,
+
+  ] = useState(false);
 
 
 
   useEffect(() => {
-
 
     if (note) {
 
@@ -71,51 +90,41 @@ export default function EditNoteDialog({
 
     }
 
-
   }, [note]);
 
-  const [
 
-    openBar,
 
-    setOpenBar,
+  const handleCloseBar = (
 
-  ] = useState(() => {
+    _event: React.SyntheticEvent | Event,
 
-    console.log("State Initialized");
+    reason?: SnackbarCloseReason,
 
-    return false;
+  ) => {
 
-  });
-  
-    const handleOpen = () => {
-      setOpenBar(true);
-    };
-  
-    const handleClose = (
-      _event: React.SyntheticEvent | Event,
-      reason?: SnackbarCloseReason,
-    ) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-  
-      setOpenBar(false);
+    if (reason === "clickaway") {
+
+      return;
+
+    }
+
+    setOpenBar(false);
+
   };
 
 
 
   const handleSubmit = () => {
 
-    if(title && content !== null) {
+    if (
 
-      if (!note) {
+      title.trim() &&
 
-        return;
+      content.trim()
 
-      }
+    ) {
 
-
+      if (!note) return;
 
       onSave({
 
@@ -125,151 +134,249 @@ export default function EditNoteDialog({
 
         content,
 
-        updatedAt:
-          Date.now(),
+        updatedAt: Date.now(),
 
       });
 
-
-
       onClose();
 
-    }else{
-      handleOpen();
-    }
-    
+    } else {
 
+      setOpenBar(true);
+
+    }
 
   };
-  
+
 
 
   return (
 
-    <Dialog
+    <>
 
-      open={open}
+      <Dialog
 
-      onClose={onClose}
+        open={open}
 
-    >
+        onClose={onClose}
 
+        fullWidth
 
-      <DialogTitle>
+        maxWidth="sm"
 
-        ویرایش نبشت
-
-      </DialogTitle>
-
-
-
-      <DialogContent>
-
-
-        <TextField
-
-          fullWidth
-
-          margin="normal"
-
-          label="عنوان"
-
-          value={title}
-
-          onChange={(e) =>
-            setTitle(e.target.value)
-          }
-
-        />
-
-
-
-        <TextField
-
-          fullWidth
-
-          multiline
-
-          margin="normal"
-
-          label=
-            {
-              behavior 
-              ? "مطلب ارزشمندتون"
-              : "متن"
-            } 
-              
-
-          value={content}
-
-          onChange={(e) =>
-            setContent(e.target.value)
-          }
-
-        />
-
-
-      </DialogContent>
-
-
-
-
-      <DialogActions
-         sx={{
-          justifyContent: "center",
-          gap: 2,
-        }}
       >
 
+        <DialogTitle
 
-        <Button
-          onClick={onClose}
-        >
+          sx={{
 
-          {
-            behavior 
-            ? "ببندش بهره بردیم"
-            : "بستن"
-          } 
+            textAlign: "center",
 
-        </Button>
+            fontWeight: 700,
 
+            pb: 1,
 
-
-        <Button
-
-          variant="contained"
-
-          onClick={handleSubmit}
+          }}
 
         >
 
-          {
-            behavior 
-            ? "بزار تو دیتا"
-            : "ذخیره"
-          } 
+          نبشت
 
-        </Button>
+        </DialogTitle>
 
 
 
-      </DialogActions>
+        <DialogContent
+
+          sx={{
+
+            pt: 2,
+
+          }}
+
+        >
+
+          <TextField
+
+            fullWidth
+
+            margin="normal"
+
+            label="عنوان"
+
+            value={title}
+
+            onChange={(e) =>
+
+              setTitle(
+
+                e.target.value
+
+              )
+
+            }
+
+            sx={{
+
+              "& .MuiOutlinedInput-root": {
+
+                borderRadius: 2,
+
+              },
+
+            }}
+
+          />
+
+
+
+          <TextField
+
+            fullWidth
+
+            multiline
+
+            minRows={10}
+
+            margin="normal"
+
+            label={
+
+              behavior
+
+                ? "مطلب ارزشمندتون"
+
+                : "متن"
+
+            }
+
+            value={content}
+
+            onChange={(e) =>
+
+              setContent(
+
+                e.target.value
+
+              )
+
+            }
+
+            sx={{
+
+              "& .MuiOutlinedInput-root": {
+
+                borderRadius: 2,
+
+                alignItems: "flex-start",
+
+              },
+
+            }}
+
+          />
+
+        </DialogContent>
+
+
+
+        <DialogActions
+
+          sx={{
+
+            justifyContent: "space-between",
+
+            px: 3,
+
+            pb: 2,
+
+          }}
+
+        >
+
+          <Button
+
+            onClick={onClose}
+
+          >
+
+            {
+
+              behavior
+
+                ? "ببندش بهره بردیم"
+
+                : "بستن"
+
+            }
+
+          </Button>
+
+
+
+          <Button
+
+            variant="contained"
+
+            onClick={handleSubmit}
+
+          >
+
+            {
+
+              behavior
+
+                ? "بزار تو دیتا"
+
+                : "ذخیره"
+
+            }
+
+          </Button>
+
+        </DialogActions>
+
+      </Dialog>
+
+
 
       <Snackbar
-        sx={{
-          "& .MuiSnackbarContent-message": {
-            width: "100%",
-            textAlign: "center",
-          },
-        }}  
-        open={openBar}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        message= "لطفاً تمامی مقادیر را به درستی وارد کنید"
-      />
 
-    </Dialog>
+        open={openBar}
+
+        autoHideDuration={3000}
+
+        onClose={handleCloseBar}
+
+        anchorOrigin={{
+
+          vertical: "bottom",
+
+          horizontal: "center",
+
+        }}
+
+      >
+
+        <Alert
+
+          severity="warning"
+
+          sx={{
+
+            width: "100%",
+
+          }}
+
+        >
+
+          لطفاً تمامی مقادیر را به درستی وارد کنید.
+
+        </Alert>
+
+      </Snackbar>
+
+    </>
 
   );
 

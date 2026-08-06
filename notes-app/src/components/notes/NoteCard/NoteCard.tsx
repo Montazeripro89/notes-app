@@ -1,154 +1,157 @@
 import {
   Card,
   CardContent,
-  CardActions,
+  IconButton,
   Typography,
-  Button,
   Box,
 } from "@mui/material";
 
+import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 
 import type {
   Note,
 } from "../../../types/Note";
 
-
-
 type NoteCardProps = {
 
   note: Note;
 
+  onEdit: (note: Note) => void;
 
-  onDelete: (
-    id: string
-  ) => void;
-
-
-  onEdit: (
-    note: Note
-  ) => void;
-
-  behavior: boolean
+  onDelete: (id: string) => void;
 
 };
 
-
-
-
 export default function NoteCard({
-  note,
-  onDelete,
-  onEdit,
-  behavior
-}: NoteCardProps) {
 
+  note,
+
+  onEdit,
+
+  onDelete,
+
+}: NoteCardProps) {
 
   return (
 
-    <Card 
+    <Card
 
-      onClick={(event) => {
+      elevation={1}
 
-        event.stopPropagation();
-
-        onEdit(note);
-
-      }}
-
+      onClick={() => onEdit(note)}
 
       sx={{
-        borderBottom: '1px solid #a1a1a18e', 
-        borderTop: '1px solid #a1a1a18e',
-        cursor: "pointer",
-      }}
-    >
 
+        mb: 2,
+
+        borderRadius: 3,
+
+        cursor: "pointer",
+
+        transition: ".2s",
+
+        "&:hover": {
+
+          boxShadow: 4,
+
+        },
+
+      }}
+
+    >
 
       <CardContent
         sx={{
-          borderBottom: '1px dotted #878787'  
+          p: 2,
+          "&:last-child": {
+            pb: 2,
+          },
         }}
       >
 
+        <Box
 
-        <Typography
-          variant="h6"
-           sx={{
-            display: "-webkit-box",
-            WebkitLineClamp: 1,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
+          sx={{
+
+            display: "flex",
+
+            justifyContent: "space-between",
+
+            alignItems: "flex-start",
+
+            mb: 1,
+
           }}
+
         >
 
-          {note.title}
+          <Typography
 
-        </Typography>
+            variant="h6"
 
+            sx={{
 
+              fontWeight: 700,
+
+              flex: 1,
+
+            }}
+
+          >
+
+            {note.title}
+
+          </Typography>
+
+          <IconButton
+
+            color="error"
+
+            size="small"
+
+            onClick={(event) => {
+
+              event.stopPropagation();
+
+              onDelete(note.id);
+
+            }}
+
+          >
+
+            <DeleteOutlineRoundedIcon />
+
+          </IconButton>
+
+        </Box>
 
         <Typography
+
+          variant="body2"
+
+          color="text.secondary"
+
           sx={{
+
+            lineHeight: 1.8,
+
             display: "-webkit-box",
-            WebkitLineClamp: 1,
+
+            WebkitLineClamp: 2,
+
             WebkitBoxOrient: "vertical",
+
             overflow: "hidden",
+
           }}
+
         >
 
           {note.content}
 
         </Typography>
 
-
-
       </CardContent>
-
-
-
-
-      <CardActions>
-
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 2,
-        }}
-      >
-
-        <Button
-
-          color="error"
-
-          onClick={(event) => {
-
-            event.stopPropagation();
-
-            onDelete(note.id);
-
-          }}
-
-        >
-
-          {
-            behavior
-
-            ? "نابود کردن"
-
-            : "حذف"
-          }
-
-        </Button>
-      </Box>
-
-
-
-      </CardActions>
-
-
 
     </Card>
 

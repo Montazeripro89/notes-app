@@ -16,7 +16,7 @@ export default function Header() {
 
       position="static"
       sx={{
-        height: '75px'
+        height: 55
       }}
 
     >
@@ -30,8 +30,8 @@ export default function Header() {
 
           sx={{
             position: 'absolute',
-            top : '64%',
-            left : '51%',
+            top : 25,
+            left : 50,
             transform: 'translate(-51%, -51%)',
             flexGrow: 1,
           }}

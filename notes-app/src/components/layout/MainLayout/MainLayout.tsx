@@ -1,9 +1,16 @@
+import {
+  AppBar,
+  Box,
+  Container,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+
 import type {
   ReactNode,
 } from "react";
+import ThemeToggle from "../../common/ThemeToggle";
 
-
-import Header from "../Header";
 
 
 type MainLayoutProps = {
@@ -14,30 +21,85 @@ type MainLayoutProps = {
 
 
 
-
 export default function MainLayout({
 
   children,
 
 }: MainLayoutProps) {
 
-
   return (
 
-    <>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        bgcolor: "background.default",
+      }}
+    >
+
+      <AppBar
+        position="sticky"
+        elevation={1}
+      >
+
+        <Toolbar
+          sx={{
+            minHeight: 56,
+            justifyContent: "space-between",
+            position: "relative",
+          }}
+        >
+
+          <ThemeToggle />
+
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 700,
+              position: "absolute",
+              left: "10%",
+              transform: "translateX(-10%)",
+            }}
+          >
+            نبشت
+          </Typography>
+
+    {/* Spacer */}
+
+    <Box sx={{ width: 40 }} />
+
+    </Toolbar>
+
+      </AppBar>
 
 
-      <Header />
 
+      <Container
 
-      <main>
+        maxWidth="sm"
 
-        {children}
+        disableGutters
 
-      </main>
+      >
 
+        <Box
 
-    </>
+          sx={{
+
+            px: 2,
+
+            py: 2,
+
+          }}
+
+        >
+
+          {children}
+
+        </Box>
+
+      </Container>
+
+    </Box>
 
   );
 

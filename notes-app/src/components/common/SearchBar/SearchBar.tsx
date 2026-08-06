@@ -1,7 +1,7 @@
 import {
+  Box,
   TextField,
 } from "@mui/material";
-
 
 type SearchBarProps = {
 
@@ -13,47 +13,79 @@ type SearchBarProps = {
 
 };
 
-
-
 export default function SearchBar({
-  value,
-  onChange,
-}: SearchBarProps) {
 
+  value,
+
+  onChange,
+
+}: SearchBarProps) {
 
   return (
 
-    <TextField
-
+    <Box
       sx={{
-        width: '70vw',
-        "& .MuiOutlinedInput-root": {
-          borderRadius: 0,
-        },
-        "& .MuiOutlinedInput-notchedOutline": {
-          borderColor: "#cccccc77",
-        },
-
-        "&:hover .MuiOutlinedInput-notchedOutline": {
-          borderColor: "#cccccc77",
-        },
-
-        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-          borderColor: "#cccccc77",
-          borderWidth: "1px",
-        },
-
+        flex: 1,
       }}
+    >
 
-      value={value}
+      <TextField
 
-      onChange={(event) =>
-        onChange(event.target.value)
-      }
+        fullWidth
 
-      placeholder="جستجو..."
+        placeholder="جستجو..."
 
-    />
+        variant="outlined"
+
+        size="small"
+
+        value={value}
+
+        onChange={(event) =>
+
+          onChange(
+
+            event.target.value
+
+          )
+
+        }
+
+        sx={{
+
+          "& .MuiOutlinedInput-root": {
+
+            height: 46,
+
+            borderRadius: 2,
+
+          },
+
+          "& .MuiOutlinedInput-notchedOutline": {
+
+            borderColor: "#cccccc77",
+
+          },
+
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+
+            borderColor: "#cccccc77",
+
+          },
+
+          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+
+            borderColor: "#cccccc77",
+
+            borderWidth: 1,
+
+          },
+
+        }}
+
+      />
+
+    </Box>
 
   );
 
