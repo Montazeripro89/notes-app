@@ -374,7 +374,7 @@ export default function NotesContainer({behavior} : NotesContainerProps) {
 
             boxShadow: 5,
 
-            bgcolor: 'footer.main',
+            bgcolor: "primary.main",
 
             transition:
               "transform 0.2s ease, box-shadow 0.2s ease",
@@ -384,8 +384,6 @@ export default function NotesContainer({behavior} : NotesContainerProps) {
               transform: "scale(1.06)",
 
               boxShadow: 8,
-
-              bgcolor: 'footer.main',
 
             },
 

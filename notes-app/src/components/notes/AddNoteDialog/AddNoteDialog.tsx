@@ -5,6 +5,7 @@ import {
   DialogActions,
   Button,
   TextField,
+  Alert,
 } from "@mui/material";
 
 import Snackbar from '@mui/material/Snackbar';
@@ -248,18 +249,41 @@ export default function AddNoteDialog({
       </DialogActions>
 
 
-      <Snackbar
-        sx={{
-          "& .MuiSnackbarContent-message": {
-            width: "100%",
-            textAlign: "center",
-          },
-        }}  
-        open={openBar}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        message="لطفاً تمامی مقادیر را به درستی وارد کنید"
-      />
+            <Snackbar
+      
+              open={openBar}
+      
+              autoHideDuration={3000}
+      
+              onClose={handleClose}
+      
+              anchorOrigin={{
+      
+                vertical: "bottom",
+      
+                horizontal: "center",
+      
+              }}
+      
+            >
+      
+              <Alert
+      
+                severity="warning"
+      
+                sx={{
+      
+                  width: "100%",
+      
+                }}
+      
+              >
+      
+                لطفاً تمامی مقادیر را به درستی وارد کنید.
+      
+              </Alert>
+      
+            </Snackbar>
 
     </Dialog>
 
