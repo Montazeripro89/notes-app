@@ -4,7 +4,13 @@ import NotesContainer from "./components/notes/NotesContainer";
 function App() {
   return (
     <MainLayout>
-      <NotesContainer />
+       {(behavior) => (
+
+        <NotesContainer
+          behavior={behavior}
+        />
+
+        )}
     </MainLayout>
   );
 }

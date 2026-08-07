@@ -22,6 +22,7 @@ import EmptyState from "../EmptyState";
 import EditNoteDialog from "../EditNoteDialog";
 import DeleteDialog from "../DeleteDialog";
 import AddNoteDialog from "../AddNoteDialog";
+import Footer from "../../layout/Footer";
 
 import SearchBar from "../../common/SearchBar";
 import SortSelect from "../../common/SortSelect";
@@ -42,10 +43,6 @@ import {
   useDialog,
 } from "../../../hook/useDialog";
 
-import {
-  useLanguageMode,
-} from "../../../hook/useLanguageMode";
-
 import type {
   SortOrder,
 } from "../../../utils/sort";
@@ -54,7 +51,11 @@ import type {
   Note,
 } from "../../../types/Note";
 
-export default function NotesContainer() {
+type NotesContainerProps = {
+  behavior: boolean;
+};
+
+export default function NotesContainer({behavior} : NotesContainerProps) {
 
   const {
 
@@ -116,9 +117,6 @@ export default function NotesContainer() {
 
   const deleteDialog =
     useDialog();
-
-  const languageDialog =
-    useLanguageMode();
 
   const {
 
@@ -218,201 +216,13 @@ export default function NotesContainer() {
 
   }, [
 
-    languageDialog.behavior,
+    behavior,
 
   ]);
 
     return (
 
     <>
-
-      <Fab
-
-        color="primary"
-
-        onClick={addDialog.handleOpen}
-
-        sx={{
-
-          position: "fixed",
-
-          left: 24,
-
-          bottom: 24,
-
-          width: 60,
-
-          height: 60,
-
-          boxShadow: 5,
-
-          transition: ".25s",
-
-          zIndex: 1000,
-
-          "&:hover": {
-
-            transform: "scale(1.06)",
-
-            boxShadow: 8,
-
-          },
-
-        }}
-
-      >
-
-        <AddIcon />
-
-      </Fab>
-
-
-
-      <Fab
-
-        color="info"
-
-        onClick={languageDialog.handleBehavior}
-
-        sx={{
-
-          position: "fixed",
-
-          right: 24,
-
-          bottom: 96,
-
-          width: 56,
-
-          height: 56,
-
-          boxShadow: 4,
-
-          transition: ".25s",
-
-          zIndex: 1000,
-
-          "&:hover": {
-
-            transform: "scale(1.06)",
-
-            boxShadow: 7,
-
-          },
-
-        }}
-
-      >
-
-        {
-
-          languageDialog.behavior
-
-            ?
-
-            <svg
-
-              width="24"
-
-              height="24"
-
-              viewBox="0 0 24 24"
-
-              fill="none"
-
-              xmlns="http://www.w3.org/2000/svg"
-
-            >
-
-              <path
-
-                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"
-
-                stroke="currentColor"
-
-                strokeWidth="2"
-
-                strokeLinecap="round"
-
-                strokeLinejoin="round"
-
-              />
-
-              <path
-
-                d="M8 10H16"
-
-                stroke="currentColor"
-
-                strokeWidth="2"
-
-                strokeLinecap="round"
-
-              />
-
-              <path
-
-                d="M8 13H13"
-
-                stroke="currentColor"
-
-                strokeWidth="2"
-
-                strokeLinecap="round"
-
-              />
-
-            </svg>
-
-            :
-
-            <svg
-
-              width="24"
-
-              height="24"
-
-              viewBox="0 0 24 24"
-
-              fill="none"
-
-              xmlns="http://www.w3.org/2000/svg"
-
-            >
-
-              <path
-
-                d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"
-
-                stroke="currentColor"
-
-                strokeWidth="2"
-
-                strokeLinecap="round"
-
-                strokeLinejoin="round"
-
-              />
-
-              <circle
-
-                cx="12"
-
-                cy="10"
-
-                r="1.5"
-
-                fill="currentColor"
-
-              />
-
-            </svg>
-
-        }
-
-      </Fab>
-
-
 
       <Box
 
@@ -494,7 +304,7 @@ export default function NotesContainer() {
 
         onSave={addNote}
 
-        behavior={languageDialog.behavior}
+        behavior={behavior}
 
       />
 
@@ -516,7 +326,7 @@ export default function NotesContainer() {
 
         onSave={handleSave}
 
-        behavior={languageDialog.behavior}
+        behavior={behavior}
 
       />
 
@@ -536,11 +346,58 @@ export default function NotesContainer() {
 
         onConfirm={handleDeleteConfirm}
 
-        behavior={languageDialog.behavior}
+        behavior={behavior}
 
       />
 
+      <Footer>
 
+        <Fab
+
+          color="primary"
+
+          onClick={addDialog.handleOpen}
+
+          aria-label="افزودن نبشت"
+
+          sx={{
+
+            position: 'fixed',
+
+            bottom: 30,
+
+            width: 60,
+
+            height: 60,
+
+            minHeight: 60,
+
+            boxShadow: 5,
+
+            bgcolor: 'footer.main',
+
+            transition:
+              "transform 0.2s ease, box-shadow 0.2s ease",
+
+            "&:hover": {
+
+              transform: "scale(1.06)",
+
+              boxShadow: 8,
+
+              bgcolor: 'footer.main',
+
+            },
+
+          }}
+
+        >
+
+          <AddIcon />
+
+        </Fab>
+
+      </Footer>
 
       <Snackbar
 
@@ -580,7 +437,7 @@ export default function NotesContainer() {
 
           {
 
-            languageDialog.behavior
+            behavior
 
               ?
 

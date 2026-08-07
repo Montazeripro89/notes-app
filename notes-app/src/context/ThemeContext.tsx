@@ -1,5 +1,6 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -8,6 +9,7 @@ import {
 } from "react";
 
 import {
+  ThemeProvider as MuiThemeProvider,
   useMediaQuery,
 } from "@mui/material";
 
@@ -16,19 +18,14 @@ import type {
 } from "@mui/material";
 
 import {
-  useCallback,
-} from "react";
-
+  getTheme,
+} from "../theme/theme";
 
 
 export type ThemeMode =
-
   | "light"
-
   | "dark"
-
   | "system";
-
 
 
 type ThemeContextType = {
@@ -46,13 +43,11 @@ type ThemeContextType = {
 };
 
 
-
 const ThemeContext = createContext<
   ThemeContextType | undefined
 >(
   undefined
 );
-
 
 
 type ThemeProviderProps = {
@@ -62,44 +57,38 @@ type ThemeProviderProps = {
 };
 
 
-
 export function ThemeProvider({
-
   children,
-
 }: ThemeProviderProps) {
 
 
-
+  /*
+   * تشخیص Theme سیستم عامل
+   */
   const systemPrefersDark =
     useMediaQuery(
       "(prefers-color-scheme: dark)"
     );
 
 
-
+  /*
+   * Theme ذخیره شده
+   */
   const [
-
     themeMode,
-
     setThemeMode,
-
   ] = useState<ThemeMode>(() => {
 
-    const saved = localStorage.getItem(
-      "theme-mode"
-    );
-
+    const saved =
+      localStorage.getItem(
+        "theme-mode"
+      );
 
 
     if (
-
       saved === "light" ||
-
       saved === "dark" ||
-
       saved === "system"
-
     ) {
 
       return saved;
@@ -107,31 +96,29 @@ export function ThemeProvider({
     }
 
 
-
     return "system";
 
   });
 
 
-
+  /*
+   * ذخیره انتخاب کاربر
+   */
   useEffect(() => {
 
     localStorage.setItem(
-
       "theme-mode",
-
       themeMode
-
     );
 
   }, [
-
     themeMode,
-
   ]);
 
 
-
+  /*
+   * Theme واقعی مورد استفاده اپ
+   */
   const effectiveMode =
     useMemo<PaletteMode>(() => {
 
@@ -140,146 +127,104 @@ export function ThemeProvider({
       ) {
 
         return systemPrefersDark
-
           ? "dark"
-
           : "light";
 
       }
 
 
-
       return themeMode;
 
     }, [
-
       themeMode,
-
       systemPrefersDark,
-
     ]);
 
-    useEffect(() => {
 
-      if (themeMode !== "system") {
+  /*
+   * ساخت Theme واقعی MUI
+   *
+   * این قسمت مهم‌ترین اصلاح است.
+   */
+  const muiTheme =
+    useMemo(() => {
 
-        return;
+      return getTheme(
+        effectiveMode
+      );
+
+    }, [
+      effectiveMode,
+    ]);
+
+
+  /*
+   * تغییر Theme
+   */
+  const toggleTheme =
+    useCallback(() => {
+
+      switch (themeMode) {
+
+        case "system":
+
+          setThemeMode(
+            effectiveMode === "dark"
+              ? "light"
+              : "dark"
+          );
+
+          break;
+
+
+        case "light":
+
+          setThemeMode("dark");
+
+          break;
+
+
+        case "dark":
+
+          setThemeMode("light");
+
+          break;
 
       }
 
-      const media = window.matchMedia(
-
-        "(prefers-color-scheme: dark)"
-
-      );
-
-      const handleChange = () => {
-
-        // باعث Re-render می‌شود
-        setThemeMode("system");
-
-      };
-
-      media.addEventListener(
-
-        "change",
-
-        handleChange
-
-      );
-
-      return () => {
-
-        media.removeEventListener(
-
-          "change",
-
-          handleChange
-
-        );
-
-      };
-
     }, [
-
       themeMode,
-
+      effectiveMode,
     ]);
-
-
-
-  const toggleTheme = useCallback(() => {
-
-    switch (themeMode) {
-
-      case "system":
-
-        setThemeMode(
-
-          effectiveMode === "dark"
-
-            ? "light"
-
-            : "dark"
-
-        );
-
-        break;
-
-      case "light":
-
-        setThemeMode("dark");
-
-        break;
-
-      case "dark":
-
-        setThemeMode("light");
-
-        break;
-
-    }
-
-  }, [
-
-    themeMode,
-
-    effectiveMode,
-
-  ]);
-
 
 
   return (
 
-    <ThemeContext.Provider
-
-      value={{
-
-        themeMode,
-
-        effectiveMode,
-
-        setThemeMode,
-
-        toggleTheme,
-
-      }}
-
+    <MuiThemeProvider
+      theme={muiTheme}
     >
 
-      {children}
+      <ThemeContext.Provider
+        value={{
+          themeMode,
+          effectiveMode,
+          setThemeMode,
+          toggleTheme,
+        }}
+      >
 
-    </ThemeContext.Provider>
+        {children}
+
+      </ThemeContext.Provider>
+
+    </MuiThemeProvider>
 
   );
 
 }
 
 
-
 export function useThemeMode() {
-
 
   const context =
     useContext(
@@ -287,17 +232,13 @@ export function useThemeMode() {
     );
 
 
-
   if (!context) {
 
     throw new Error(
-
       "useThemeMode must be used inside ThemeProvider"
-
     );
 
   }
-
 
 
   return context;
